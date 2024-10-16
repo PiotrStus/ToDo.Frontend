@@ -128,14 +128,6 @@ const save = () => {
 
 watch(() => viewModel.value.dueDate, () => console.log(viewModel.value.dueDate));
 
-const parseDate = (dateString) => {
-	if (dateString) {
-		const date = new Date(dateString);
-		return !isNaN(date.getTime()) ? date : null;
-	}
-	return null;
-};
-
 const loadData = () => {
 	loading.value = true;
 
@@ -148,9 +140,6 @@ const loadData = () => {
 				viewModel.value.id = data.value.id;
 				viewModel.value.title = data.value.title;
 				viewModel.value.description = data.value.description;
-				//viewModel.value.dueDate = dayjs(viewModel.value.date).format();
-				//viewModel.value.dueDate = parseDate(viewModel.value.date);
-
 				viewModel.value.dueDate = new Date(data.value.dueDate);
 				console.log(viewModel.value);
 				console.log(viewModel.value.dueDate);

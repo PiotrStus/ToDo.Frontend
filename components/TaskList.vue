@@ -137,7 +137,6 @@ const globalMessageStore = useGlobalMessageStore();
 const { getErrorMessage} = useWebApiResponseParser();
 
 const addTask = async () => {
-	console.log("task added");
 	await addNewItem();
 }
 
@@ -158,16 +157,19 @@ const addNewItem = async () => {
 			globalMessageStore.showErrorMessage(message);
 		}
 	})
-	.then((response) => {
-		if (response.data.value) {
-			globalMessageStore.showSuccessMessage('Zadanie zostało dodane');
-			itemsStore.loadItems();
-		}
-	})
-	.finally(() => {
-		clear();
-		loading.value = false;
-	});
+    .then((response) => {
+        if (response.data.value) {
+            globalMessageStore.showSuccessMessage('Zadanie zostało dodane');
+            return new Promise(resolve => setTimeout(resolve, 500));
+        }
+    })
+    .then(() => {
+        clear();
+        itemsStore.loadItems();
+    })
+    .finally(() => {
+        loading.value = false;
+    });
 }
 
 const removeTask = async (taskId) => {
