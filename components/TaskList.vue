@@ -15,9 +15,9 @@
 		<v-row>
 			<v-col cols="12">
 				<v-list>
-					<v-list-title>Lista zadań</v-list-title>
+					<h4 class="ml-4 mb-4">Lista zadań</h4>
 					<v-list-item v-for="task in filteredTasks" :key="task.id">
-						<v-card class="mb-2">
+						<v-card class="mb-2 d-flex">
 							<v-list-item-content>
 								<v-list-item-title>{{ task.title }}</v-list-item-title>
 								<v-list-item-subtitle>{{
@@ -27,6 +27,12 @@
 									formatDate(task.dueDate)
 								}}</v-list-item-subtitle>
 							</v-list-item-content>
+							<v-spacer></v-spacer>
+							<v-list-item-action>
+								<v-btn icon @click="removeTask(task.id)" variant="flat">
+									<v-icon>mdi-delete</v-icon>
+								</v-btn>
+							</v-list-item-action>
 						</v-card>
 					</v-list-item>
 				</v-list>
@@ -82,11 +88,9 @@
 import { ref, computed, watch } from "vue";
 import dayjs from "dayjs";
 
-// Pobranie zadań z itemsStore
 const itemsStore = useItemsStore();
 const tasks = computed(() => itemsStore.items);
 
-// Funkcja do formatowania daty
 const formatDate = (date) => {
 	return dayjs(date).format("YYYY-MM-DD");
 };
@@ -165,6 +169,32 @@ const addNewItem = async () => {
 	})
 	.finally(() => {
 		clear();
+		loading.value = false;
+	});
+}
+
+const removeTask = async (taskId) => {
+	loading.value = true;
+	const messageMap = {
+		"ItemNotFound": "Nie znaleziono zadania"
+	};
+
+	useWebApiFetch(`/Item/DeleteItem/`, {
+		method: 'POST',
+		body: {Id:taskId},
+		onResponseError: ({ response }) => {
+			errorMsg.value = "Błąd usuwania zadania";
+			let message = getErrorMessage(response, messageMap);
+			globalMessageStore.showErrorMessage(message);
+		}
+	})
+	.then((response) => {
+		if (response.data.value) {
+			globalMessageStore.showSuccessMessage('Zadanie zostało usunięte');
+			itemsStore.loadItems();
+		}
+	})
+	.finally(() => {
 		loading.value = false;
 	});
 }
