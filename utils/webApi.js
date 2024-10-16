@@ -9,7 +9,7 @@ export const useWebApiFetch = function (request, opts) {
 
 	opts = opts || {};
 	opts.headers = opts.headers || {};
-L
+
     return useFetch(request, { baseURL: config.public.BASE_URL,
         onRequest({ request, options }) {
         },
