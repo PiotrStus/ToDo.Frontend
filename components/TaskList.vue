@@ -30,7 +30,7 @@
 							</v-list-item>
 							<v-spacer></v-spacer>
 							<v-list-item-action>
-								<v-btn icon variant="flat" title="Edytuj" :disabled="task.deleting" :to="`/edit/${task.id}`">
+								<v-btn icon variant="flat" title="Edytuj" :to="`/edit/${task.id}`">
 									<v-icon>mdi-pencil</v-icon>
 								</v-btn>	
 								<v-btn icon @click="removeTask(task.id)" variant="flat" title="Usuń">
@@ -173,7 +173,6 @@ const addNewItem = async () => {
 }
 
 const removeTask = async (taskId) => {
-	taskId.deleting = true;
 	const messageMap = {
 		"ItemNotFound": "Nie znaleziono zadania"
 	};
@@ -193,9 +192,6 @@ const removeTask = async (taskId) => {
 			itemsStore.loadItems();
 		}
 	})
-	.finally(() => {
-		taskId.deleting = false;
-	});
 }
 
 const clear = () => {
