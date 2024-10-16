@@ -8,6 +8,7 @@
 					label="Wybierz dzień"
 					item-title="label"
 					item-value="dateValue"
+					no-data-text="Brak zadań. Dodaj nowe." 
 				/>
 			</v-col>
 		</v-row>
@@ -18,7 +19,7 @@
 					<h4 class="ml-4 mb-4">Lista zadań</h4>
 					<v-list-item v-for="task in filteredTasks" :key="task.id">
 						<v-card class="mb-2 d-flex">
-							<v-list-item-content>
+							<v-list-item>
 								<v-list-item-title>{{ task.title }}</v-list-item-title>
 								<v-list-item-subtitle>{{
 									task.description || "Brak opisu"
@@ -26,9 +27,12 @@
 								<v-list-item-subtitle>{{
 									formatDate(task.dueDate)
 								}}</v-list-item-subtitle>
-							</v-list-item-content>
+							</v-list-item>
 							<v-spacer></v-spacer>
 							<v-list-item-action>
+								<v-btn icon variant="flat" title="Edytuj" :disabled="task.deleting" :to="`/edit/${task.id}`">
+									<v-icon>mdi-pencil</v-icon>
+								</v-btn>	
 								<v-btn icon @click="removeTask(task.id)" variant="flat">
 									<v-icon>mdi-delete</v-icon>
 								</v-btn>
@@ -44,7 +48,7 @@
 				<v-card>
 					<v-card-title>Dodaj nowe zadanie</v-card-title>
 					<v-card-text>
-						<v-form ref="form" v-model="valid">
+						<v-form ref="form">
 							<v-text-field
 								v-model="viewModel.title"
 								label="Tytuł"
@@ -85,7 +89,6 @@
 </template>
 
 <script setup>
-import { ref, computed, watch } from "vue";
 import dayjs from "dayjs";
 
 const itemsStore = useItemsStore();
@@ -136,12 +139,8 @@ const globalMessageStore = useGlobalMessageStore();
 const { getErrorMessage} = useWebApiResponseParser();
 
 const addTask = async () => {
-	console.log(viewModel.value.title);
-	console.log(viewModel.value.description);
-	console.log(viewModel.value.dueDate);
 	console.log("task added");
 	await addNewItem();
-	
 }
 
 const loading = ref(false);
@@ -174,7 +173,7 @@ const addNewItem = async () => {
 }
 
 const removeTask = async (taskId) => {
-	loading.value = true;
+	taskId.deleting = true;
 	const messageMap = {
 		"ItemNotFound": "Nie znaleziono zadania"
 	};
@@ -195,7 +194,7 @@ const removeTask = async (taskId) => {
 		}
 	})
 	.finally(() => {
-		loading.value = false;
+		taskId.deleting = false;
 	});
 }
 

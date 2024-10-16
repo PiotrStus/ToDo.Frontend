@@ -1,7 +1,7 @@
 <template>
 	<v-app id="inspire">
 	  <v-app-bar>
-		<v-app-bar-title>Todo Application</v-app-bar-title>
+		<v-app-bar-title>Aplikacja do planowania zadań</v-app-bar-title>
 		<v-spacer></v-spacer>
 		<VBtn icon="mdi-theme-light-dark" title="Przełącz motyw" @click="toggleTheme"></VBtn>
 	  </v-app-bar>
