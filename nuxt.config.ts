@@ -19,7 +19,8 @@ imports: {
      })
    },
    '@pinia/nuxt',
-   'dayjs-nuxt'
+   'dayjs-nuxt',
+   'nuxt-lodash'
  ],
  vite: {
    vue: {
@@ -27,7 +28,12 @@ imports: {
        transformAssetUrls,
      },
    },
- },
-
+ },  
+ lodash: {
+  prefix: "_",
+  prefixSkip: false,
+  upperAfterPrefix: false,
+},
+ 
  compatibilityDate: '2024-10-16',
 })

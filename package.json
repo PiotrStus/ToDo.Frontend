@@ -19,6 +19,7 @@
   },
   "devDependencies": {
     "dayjs-nuxt": "^2.1.11",
+    "nuxt-lodash": "^2.5.3",
     "sass": "^1.79.5",
     "vite-plugin-vuetify": "^2.0.4",
     "vuetify": "^3.7.2"
