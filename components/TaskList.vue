@@ -33,7 +33,7 @@
 								<v-btn icon variant="flat" title="Edytuj" :disabled="task.deleting" :to="`/edit/${task.id}`">
 									<v-icon>mdi-pencil</v-icon>
 								</v-btn>	
-								<v-btn icon @click="removeTask(task.id)" variant="flat">
+								<v-btn icon @click="removeTask(task.id)" variant="flat" title="Usuń">
 									<v-icon>mdi-delete</v-icon>
 								</v-btn>
 							</v-list-item-action>
@@ -80,7 +80,7 @@
 						</v-form>
 					</v-card-text>
 					<v-card-actions>
-						<v-btn @click="addTask" color="primary" type="submit" variant="elevated" :loading="loading">Dodaj zadanie</v-btn>
+						<v-btn @click="addTask" color="primary" type="submit" variant="elevated" :loading="loading" class="ml-4 mb-4">Dodaj zadanie</v-btn>
 					</v-card-actions>
 				</v-card>
 			</v-col>
@@ -111,9 +111,7 @@ const availableDates = computed(() => {
 	}));
 });
 
-const selectedDate = ref(
-	availableDates.value.length > 0 ? availableDates.value[0].dateValue : ""
-);
+const selectedDate = ref(null);
 
 const filteredTasks = computed(() => {
 	return tasks.value.filter(

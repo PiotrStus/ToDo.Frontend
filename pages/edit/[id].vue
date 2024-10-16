@@ -60,6 +60,7 @@
 </template>
 
 <script setup>
+import dayjs from "dayjs";
 const globalMessageStore = useGlobalMessageStore();
 const itemsStore = useItemsStore();
 const { getErrorMessage } = useWebApiResponseParser();
@@ -147,8 +148,10 @@ const loadData = () => {
 				viewModel.value.id = data.value.id;
 				viewModel.value.title = data.value.title;
 				viewModel.value.description = data.value.description;
-				//viewModel.value.dueDate = new Date(viewModel.value.date);
-				viewModel.value.dueDate = parseDate(viewModel.value.date);
+				//viewModel.value.dueDate = dayjs(viewModel.value.date).format();
+				//viewModel.value.dueDate = parseDate(viewModel.value.date);
+
+				viewModel.value.dueDate = new Date(data.value.dueDate);
 				console.log(viewModel.value);
 				console.log(viewModel.value.dueDate);
 				console.log(typeof viewModel.value.dueDate);
