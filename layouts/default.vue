@@ -3,7 +3,7 @@
 	  <v-app-bar>
 		<v-app-bar-title>Todo Application</v-app-bar-title>
 		<v-spacer></v-spacer>
-		<VBtn icon="mdi-theme-light-dark" title="Przełącz motyw"></VBtn>
+		<VBtn icon="mdi-theme-light-dark" title="Przełącz motyw" @click="toggleTheme"></VBtn>
 	  </v-app-bar>
   
 	  <v-main>
@@ -15,7 +15,13 @@
 </template>
   
 <script setup>
+import { useTheme } from "vuetify";
+const theme = useTheme();
+
+
 function toggleTheme () {
   theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark'
 }
+
+
 </script>
